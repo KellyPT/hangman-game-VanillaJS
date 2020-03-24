@@ -11,8 +11,9 @@ const words = ["application", "programming", "interface", "wizard"];
 
 let selectedWord = words[Math.floor(Math.random() * words.length)];
 
-const correctLetters = [];
-const wrongLetters = [];
+let playable = true;
+let correctLetters = [];
+let wrongLetters = [];
 
 // show hidden word
 function displayWord() {
@@ -34,12 +35,40 @@ function displayWord() {
   if (innerWord === selectedWord) {
     finalMessage.innerText = "Congratulations! You won! =)";
     popup.style.display = "flex";
+    playable = false;
   }
 }
 
 // update the area for wrong letters
+// add the hang-man figure parts
+// check if the whole hang-man is completed and notify game-over
 function updateWrongLettersEl() {
-  console.log("update wrong");
+  // display wrong letters
+  wrongLettersEl.innerHTML = `
+    ${wrongLetters.length > 0 ? "<p>Wrong</p>" : ""}
+    ${
+      wrongLetters.length > 0
+        ? wrongLetters.map(letter => `<span>${letter}</span>`)
+        : ""
+    }
+  `;
+
+  // display body parts of hang-man
+  const numberOfErrors = wrongLetters.length;
+  figureParts.forEach((part, index) => {
+    if (index < numberOfErrors) {
+      part.style.display = "block";
+    } else {
+      part.style.display = "none";
+    }
+  });
+
+  // check if game is over
+  if (numberOfErrors === figureParts.length) {
+    finalMessage.innerText = "Unfortunately you've lost! =( ";
+    popup.style.display = "flex";
+    playable = false;
+  }
 }
 
 // show notification
@@ -50,11 +79,10 @@ function showNotification() {
   }, 2000);
 }
 
-// event listener fo rkeydown letter press
+// event listener fo rkeydown letter press while playing the game
 window.addEventListener("keydown", e => {
   // we only accept alphabetical letters
-  //   console.log(e.key);
-  if (e.keyCode >= 65 && e.keyCode <= 90) {
+  if (playable && e.keyCode >= 65 && e.keyCode <= 90) {
     const enteredLetter = e.key;
 
     if (
@@ -75,4 +103,25 @@ window.addEventListener("keydown", e => {
   }
 });
 
+// restart the game and play again
+playAgainBtn.addEventListener("click", () => {
+  playable = true;
+  // empty arrays
+  correctLetters = [];
+  wrongLetters = [];
+
+  // display a new word
+  selectedWord = words[Math.floor(Math.random() * words.length)];
+
+  // initialize a new game
+  displayWord();
+
+  // clean up areas for wrong UI
+  updateWrongLettersEl();
+
+  // hide the popup
+  popup.style.display = "none";
+});
+
+// initialize our game
 displayWord();
