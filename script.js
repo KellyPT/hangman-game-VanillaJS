@@ -1,13 +1,13 @@
-const wordEl = document.getElementById("word");
-const wrongLettersEl = document.getElementById("wrong-letters");
-const playAgainBtn = document.getElementById("play-again");
-const popup = document.getElementById("popup-container");
-const notification = document.getElementById("notification-container");
-const finalMessage = document.getElementById("final-message");
+const wordEl = document.getElementById('word');
+const wrongLettersEl = document.getElementById('wrong-letters');
+const playAgainBtn = document.getElementById('play-again');
+const popup = document.getElementById('popup-container');
+const notification = document.getElementById('notification-container');
+const finalMessage = document.getElementById('final-message');
 
-const figureParts = document.querySelectorAll(".figure-part");
+const figureParts = document.querySelectorAll('.figure-part');
 
-const words = ["application", "programming", "interface", "wizard"];
+const words = ['application', 'programming', 'interface', 'wizard'];
 
 let selectedWord = words[Math.floor(Math.random() * words.length)];
 
@@ -19,22 +19,22 @@ let wrongLetters = [];
 function displayWord() {
   wordEl.innerHTML = `
         ${selectedWord
-          .split("")
+          .split('')
           .map(
             letter => `
                     <span class="letter">${
-                      correctLetters.includes(letter) ? letter : ""
+                      correctLetters.includes(letter) ? letter : ''
                     }</span>
                     `
           )
-          .join("")}
+          .join('')}
     `;
 
-  const innerWord = wordEl.innerText.replace(/\n/g, "");
+  const innerWord = wordEl.innerText.replace(/\n/g, '');
 
   if (innerWord === selectedWord) {
-    finalMessage.innerText = "Congratulations! You won! =)";
-    popup.style.display = "flex";
+    finalMessage.innerText = 'Congratulations! You won! =)';
+    popup.style.display = 'flex';
     playable = false;
   }
 }
@@ -45,11 +45,11 @@ function displayWord() {
 function updateWrongLettersEl() {
   // display wrong letters
   wrongLettersEl.innerHTML = `
-    ${wrongLetters.length > 0 ? "<p>Wrong</p>" : ""}
+    ${wrongLetters.length > 0 ? '<p>Wrong</p>' : ''}
     ${
       wrongLetters.length > 0
         ? wrongLetters.map(letter => `<span>${letter}</span>`)
-        : ""
+        : ''
     }
   `;
 
@@ -57,30 +57,30 @@ function updateWrongLettersEl() {
   const numberOfErrors = wrongLetters.length;
   figureParts.forEach((part, index) => {
     if (index < numberOfErrors) {
-      part.style.display = "block";
+      part.style.display = 'block';
     } else {
-      part.style.display = "none";
+      part.style.display = 'none';
     }
   });
 
   // check if game is over
   if (numberOfErrors === figureParts.length) {
     finalMessage.innerText = "Unfortunately you've lost! =( ";
-    popup.style.display = "flex";
+    popup.style.display = 'flex';
     playable = false;
   }
 }
 
 // show notification
 function showNotification() {
-  notification.classList.add("show");
+  notification.classList.add('show');
   setTimeout(() => {
-    notification.classList.remove("show");
+    notification.classList.remove('show');
   }, 2000);
 }
 
 // event listener fo rkeydown letter press while playing the game
-window.addEventListener("keydown", e => {
+window.addEventListener('keydown', e => {
   // we only accept alphabetical letters
   if (playable && e.keyCode >= 65 && e.keyCode <= 90) {
     const enteredLetter = e.key;
@@ -104,7 +104,7 @@ window.addEventListener("keydown", e => {
 });
 
 // restart the game and play again
-playAgainBtn.addEventListener("click", () => {
+playAgainBtn.addEventListener('click', () => {
   playable = true;
   // empty arrays
   correctLetters = [];
@@ -120,7 +120,7 @@ playAgainBtn.addEventListener("click", () => {
   updateWrongLettersEl();
 
   // hide the popup
-  popup.style.display = "none";
+  popup.style.display = 'none';
 });
 
 // initialize our game
