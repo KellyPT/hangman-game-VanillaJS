@@ -14,3 +14,7 @@ Create a hangman game that allows players to guess a hidden word within a set am
 
 ## Credit
 Special thanks to [Brad Traversy](https://github.com/bradtraversy) for your amazing Udemy tutorials.
+
+### Note
+Install prettier on your local dev environment with 
+```npm install --save-dev --save-exact prettier```
